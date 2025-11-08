@@ -1,0 +1,23 @@
+{
+    "controls": [
+        {
+            "type": "wx.StaticText",
+            "label": "用户名:",
+            "pos": [10, 10],
+            "size": [60, 30]
+        },
+        {
+            "type": "wx.TextCtrl",
+            "pos": [80, 10],
+            "size": [150, 30],
+            "value": ""
+        },
+        {
+            "type": "wx.Button",
+            "label": "登录",
+            "pos": [80, 50],
+            "size": [80, 30],
+            "event": "on_button_click"
+        }
+    ]
+}
