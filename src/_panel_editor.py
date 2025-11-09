@@ -1,4 +1,26 @@
 import wx
+import os
+
+def OpenLink(link: str) -> None:
+    wx.LaunchDefaultBrowser(link)
+
+
+def OpenFile(path: str) -> None:
+    wx.LaunchDefaultApplication(path)
+
+def OpenFolder(path: str) -> None:
+    wx.LaunchDefaultApplication(path)
+
+def RunCommand(command: str) -> None:
+    os.system(command)
+
+def OpenApp(app: str) -> None:
+    wx.LaunchDefaultApplication(app)
+
+def RunPythonCode(code: str) -> None:
+    exec(code)
+
+
 
 class Control:
     def __init__(self,
@@ -7,8 +29,10 @@ class Control:
                  Parent: any = None,
                  Sizer: wx.Sizer = None,
                  Label: str = "None",
-                 Style: int = 0,
-                 Event: dict = None):
+                 Style: list = [],
+                 Event: dict = None,
+                 Size: tuple = (50, 20),
+                 Position: tuple = (10, 10)):
         self.Name = Name
         self.Parent = Parent
         self.Sizer = Sizer
@@ -16,8 +40,8 @@ class Control:
         self.Label = Label
         self.Style = Style
         self.Event = Event or {}
-        self.Size = (100, 30)
-        self.Position = (10, 10)
+        self.Size = Size
+        self.Position = Position
 
 class Panel:
     def __init__(self, Controls: list[Control]):
@@ -69,6 +93,7 @@ class Panel:
         app = wx.App()
         self.frame = wx.Frame(None, style=wx.BORDER_NONE|wx.STAY_ON_TOP)
         self.frame.SetSize((520, 250))
+        self.frame.SetTransparent(200)
         
         # 获取屏幕尺寸并设置窗口位置到右下角
         screen_width, screen_height = wx.DisplaySize()
@@ -113,10 +138,39 @@ if __name__ == '__main__':
     button1 = Control(
         Type="Button",
         Name='button1',
-        Label="测试",
-        Style=wx.BORDER_DEFAULT
+        Label="打开B站",
+        Style=wx.BORDER_DEFAULT,
+        Position = (10,10),
+        Size = (100, 30),
+        Event={
+            "EVT_BUTTON": lambda event: OpenLink("https://www.bilibili.com/")
+        }
+    )
+    button2 = Control(
+        Type="Button",
+        Name='button2',
+        Label="打开CMD",
+        Style=wx.BORDER_DEFAULT,
+        Position = (10,50),
+        Size = (100, 30),
+        Event={
+            "EVT_BUTTON": lambda event: RunCommand("cmd")
+        }
+    )
+    button3 = Control(
+        Type="Button",
+        Name='button3',
+        Label="打开D:/",
+        Style=wx.BORDER_DEFAULT,
+        Position = (10,90),
+        Size = (100, 30),
+        Event={
+            "EVT_BUTTON": lambda event: OpenFolder("D:/")
+        }
     )
 
+    cts = [button1, button2, button3]
+
     # 创建面板并添加控件
-    panel1 = Panel([button1])
+    panel1 = Panel(cts)
     panel1.Run()
