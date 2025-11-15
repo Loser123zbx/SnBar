@@ -1,0 +1,32 @@
+[
+    {
+        "Type" : "Button",
+        "Name" : "Button",
+        "Parent" : null,
+        "Sizer" : null,
+        "Label" : "Button",
+        "Style" : [],
+        "Event" : {
+            "EVT_BUTTON": {
+                "OpenFolder": "D:/"
+            }
+        },
+        "Size" : [100,20],
+        "Position" : [20,20]
+    },
+    {
+        "Type" : "Button",
+        "Name" : "Button1",
+        "Parent" : null,
+        "Sizer" : null,
+        "Label" : "Button1",
+        "Style" : [],
+        "Event" : {
+            "EVT_BUTTON": {
+                "OpenLink": "https://www.bilibili.com"
+            }
+        },
+        "Size" : [100,20],
+        "Position" : [20,50]
+    }
+]

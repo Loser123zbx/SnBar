@@ -1,47 +1,12 @@
 import wx
 import os
 
-def OpenLink(link: str) -> None:
-    wx.LaunchDefaultBrowser(link)
-
-
-def OpenFile(path: str) -> None:
-    wx.LaunchDefaultApplication(path)
-
-def OpenFolder(path: str) -> None:
-    wx.LaunchDefaultApplication(path)
-
-def RunCommand(command: str) -> None:
-    os.system(command)
-
-def OpenApp(app: str) -> None:
-    wx.LaunchDefaultApplication(app)
-
-def RunPythonCode(code: str) -> None:
-    exec(code)
-
-
-
-class Control:
-    def __init__(self,
-                 Type: str,
-                 Name: str = "name",
-                 Parent: any = None,
-                 Sizer: wx.Sizer = None,
-                 Label: str = "None",
-                 Style: list = [],
-                 Event: dict = None,
-                 Size: tuple = (50, 20),
-                 Position: tuple = (10, 10)):
-        self.Name = Name
-        self.Parent = Parent
-        self.Sizer = Sizer
-        self.Type = Type
-        self.Label = Label
-        self.Style = Style
-        self.Event = Event or {}
-        self.Size = Size
-        self.Position = Position
+try:
+    import core.control as cc
+    from core.control import Control
+except ImportError:
+    import control as cc
+    from control import Control
 
 class Panel:
     def __init__(self, Controls: list[Control]):
@@ -108,18 +73,69 @@ class Panel:
         self.frame.Bind(wx.EVT_MOTION, self.OnMouseMove)
         self.frame.Bind(wx.EVT_MOUSEWHEEL, self.OnMouseWheel)
         
+        def _parse_style_item(item):
+            """解析单个 style 项，支持 int 或 wx 常量名字符串。"""
+            # 已经是整数常量
+            if isinstance(item, int):
+                return item
+            # 字符串常量，尝试从 wx 模块中获取
+            if isinstance(item, str):
+                name = item
+                # 支持传入 'wx.BORDER_DEFAULT' 或 'BORDER_DEFAULT'
+                if name.startswith("wx."):
+                    name = name.split(".", 1)[1]
+                # 先尝试原名，然后尝试大写
+                for candidate in (name, name.upper()):
+                    if hasattr(wx, candidate):
+                        return getattr(wx, candidate)
+                raise TypeError(f"样式常量 '{item}' 在 wx 中不存在")
+            raise TypeError(f"不支持的 style 类型: {type(item)!r}")
+
+        def _combine_style(style_field):
+            """把 Style 字段（可以是 int、str、list/tuple 混合）合并为单个整数 style 标志。"""
+            if style_field is None:
+                return 0
+            # 直接是整数
+            if isinstance(style_field, int):
+                return style_field
+            # 如果是字符串，解析单条
+            if isinstance(style_field, str):
+                return _parse_style_item(style_field)
+            # 如果是可迭代（list/tuple），对每一项解析后按位或
+            if isinstance(style_field, (list, tuple)):
+                combined = 0
+                for it in style_field:
+                    combined |= _parse_style_item(it)
+                return combined
+            # 其它类型不支持
+            raise TypeError(f"无法解析的 Style 字段类型: {type(style_field)!r}")
+
         for Acontrol in self.Controls:
-            # 从字符串获取控件类
-            control_class = getattr(wx, Acontrol.Type)
-            # 创建控件实例
-            control = control_class(
-                parent=self.frame,
-                id=wx.ID_ANY,
-                label=Acontrol.Label,
-                pos=Acontrol.Position,
-                size=Acontrol.Size,
-                style=Acontrol.Style
-            )
+            try:
+                # 从字符串获取控件类，如果不存在抛出 AttributeError
+                try:
+                    control_class = getattr(wx, Acontrol.Type)
+                except AttributeError:
+                    raise Exception(f"控件类型 {Acontrol.Type} 不存在")
+
+                # 解析 style 字段并传给控件构造器
+                try:
+                    combined_style = _combine_style(Acontrol.Style)
+                except TypeError as e:
+                    raise Exception(str(e))
+
+                # 创建控件实例；许多 wx 控件 接受 label/pos/size/style
+                control = control_class(
+                    parent=self.frame,
+                    id=wx.ID_ANY,
+                    label=Acontrol.Label,
+                    pos=Acontrol.Position,
+                    size=Acontrol.Size,
+                    style=combined_style,
+                )
+            except Exception:
+                # 把异常向上抛出，便于定位问题
+                raise
             
             # 保存控件实例
             Acontrol.control = control
@@ -143,7 +159,7 @@ if __name__ == '__main__':
         Position = (10,10),
         Size = (100, 30),
         Event={
-            "EVT_BUTTON": lambda event: OpenLink("https://www.bilibili.com/")
+            "EVT_BUTTON": lambda event: cc.OpenLink("https://www.bilibili.com/")
         }
     )
     button2 = Control(
@@ -154,7 +170,7 @@ if __name__ == '__main__':
         Position = (10,50),
         Size = (100, 30),
         Event={
-            "EVT_BUTTON": lambda event: RunCommand("cmd")
+            "EVT_BUTTON": lambda event: cc.RunCommand("cmd")
         }
     )
     button3 = Control(
@@ -165,7 +181,7 @@ if __name__ == '__main__':
         Position = (10,90),
         Size = (100, 30),
         Event={
-            "EVT_BUTTON": lambda event: OpenFolder("D:/")
+            "EVT_BUTTON": lambda event: cc.OpenFolder("D:/")
         }
     )
 
