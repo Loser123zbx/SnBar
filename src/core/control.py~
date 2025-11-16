@@ -21,6 +21,8 @@ def OpenApp(app: str) -> None:
 def RunPythonCode(code: str) -> None:
     exec(code)
 
+
+
 class Control:
     def __init__(self,
                  Type: str,
@@ -61,26 +63,7 @@ def ImportContorlByJson(json_path: str) -> list[Control]:
             try:
                 _control : Control = Control(Type = _type, Name = _name, Parent= _parent, 
                                 Sizer = _sizer, Label = _label, Style = _style,
-                                Size = _size, Position = _position)
-                events_tmp = {}
-                for event_name, event_handler in _event.items():
-                    for _func , _value in event_handler.items():
-                        if _func == "OpenLink":
-                            events_tmp[event_name] = lambda evt, link=_value: OpenLink(link)
-                        elif _func == "OpenFile":
-                            events_tmp[event_name] = lambda evt, path=_value: OpenFile(path)
-                        elif _func == "OpenFolder":
-                            events_tmp[event_name] = lambda evt, path=_value: OpenFolder(path)
-                        elif _func == "RunCommand":
-                            events_tmp[event_name] = lambda evt, command=_value: RunCommand(command)
-                        elif _func == "OpenApp":
-                            events_tmp[event_name] = lambda evt, app=_value: OpenApp(app)
-                        elif _func == "RunPythonCode":
-                            events_tmp[event_name] = lambda evt, code=_value: RunPythonCode(code)
-                print(events_tmp)
-                 
-                _control.Event = events_tmp
-
+                                Event = _event, Size = _size, Position = _position)
             except TypeError:
                 raise TypeError("Control Type Error")
                 

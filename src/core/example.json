@@ -8,7 +8,7 @@
         "Style" : [],
         "Event" : {
             "EVT_BUTTON": {
-                "OpenFolder": "D:/"
+                "openFolder" : "D:\\"
             }
         },
         "Size" : [100,20],
@@ -23,7 +23,7 @@
         "Style" : [],
         "Event" : {
             "EVT_BUTTON": {
-                "OpenLink": "https://www.bilibili.com"
+                "OpenLink" : "https://www.bilibili.com"
             }
         },
         "Size" : [100,20],
