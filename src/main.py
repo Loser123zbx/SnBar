@@ -1,6 +1,14 @@
+
+import core.panel as PanelCore
+from core.panel import Panel
+from core.control import Control
+import core.control as cc
 import wx
+import json
 import wx.adv
-import sys
+
+
+
 
 class SystemTrayIcon(wx.adv.TaskBarIcon):
     def __init__(self, frame):
@@ -10,10 +18,23 @@ class SystemTrayIcon(wx.adv.TaskBarIcon):
         icon = wx.Icon("icon.ico")
         self.SetIcon(icon, "123 Bar")
         self.Bind(wx.adv.EVT_TASKBAR_LEFT_DOWN, self.OnLeftClick)
+        self.Bind(wx.adv.EVT_TASKBAR_RIGHT_DOWN, self.OnRightClick)
 
     def OnLeftClick(self, event):
         self.frame.Show()
         self.frame.Restore()
+    
+    def Exit(self, event):  # 添加 event 参数
+        self.frame.Destroy()
+    
+    def OnRightClick(self, event):
+        # 创建一个弹出菜单
+        menu = wx.Menu()
+        exit_item = wx.MenuItem(menu, wx.ID_EXIT, "Exit")
+        menu.Append(exit_item)
+        self.Bind(wx.EVT_MENU, self.Exit)
+        self.PopupMenu(menu)
+        menu.Destroy()
 
 class Bar(wx.Frame):
     def __init__(self, parent=None):
@@ -68,11 +89,15 @@ class Bar(wx.Frame):
         self.Hide()  # 隐藏窗口而不是关闭
         event.Veto()  # 阻止窗口真正关闭
 
+controls = (cc.ImportControlByJson("core/example.json"))
+Panel1 = Panel(controls)
+
 class App(wx.App):
     def OnInit(self):
-        self.frame = Bar()
+        self.frame = Panel1.Run()
         self.frame.Show()
         return True
+    
 
 if __name__ == "__main__":
     app = App(False)

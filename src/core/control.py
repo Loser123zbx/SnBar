@@ -43,8 +43,8 @@ class Control:
         self.Position = Position
     
 
-def ImportContorlByJson(json_path: str) -> list[Control]:
-    contorls : list[Control] = [ ]
+def ImportControlByJson(json_path: str) -> list[Control]:
+    Controls : list[Control] = [ ]
     with open(json_path, "r") as f:
         data = json.load(f)
         print(data)
@@ -84,9 +84,9 @@ def ImportContorlByJson(json_path: str) -> list[Control]:
             except TypeError:
                 raise TypeError("Control Type Error")
                 
-            contorls.append(_control)
+            Controls.append(_control)
 
-    return contorls
+    return Controls
 
 if __name__ == "__main__":
     try:
@@ -96,13 +96,13 @@ if __name__ == "__main__":
         import panel as cp
         from panel import Panel
 
-    print(ImportContorlByJson("example.json"))
+    print(ImportControlByJson("example.json"))
     
-    contorls = (ImportContorlByJson("example.json"))
+    Controls = (ImportControlByJson("example.json"))
     
-    print(contorls)
+    print(Controls)
 
-    Panel1 = Panel(contorls)
+    Panel1 = Panel(Controls)
     Panel1.Run()
 
 

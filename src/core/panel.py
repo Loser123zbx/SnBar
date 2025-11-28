@@ -54,6 +54,10 @@ class Panel:
         self.frame.SetTransparent(new_alpha)
         event.Skip()
 
+    def OnClose(self, event):
+        self.Hide()  # 隐藏窗口而不是关闭
+        event.Veto()  # 阻止窗口真正关闭
+
     def Run(self) -> None:
         app = wx.App()
         self.frame = wx.Frame(None, style=wx.BORDER_NONE|wx.STAY_ON_TOP)
