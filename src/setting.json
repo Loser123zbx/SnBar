@@ -1,4 +1,10 @@
 {
-    
+    "controlsPath":"D:\\123_softs\\123Bar\\src\\controls.json",
+
+    "panel":{
+        "width":520,
+        "height":250
+
+    }
     
 }

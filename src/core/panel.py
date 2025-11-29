@@ -155,41 +155,43 @@ class Panel:
 
 if __name__ == '__main__':
     # 创建按钮控件
-    button1 = Control(
-        Type="Button",
-        Name='button1',
-        Label="打开B站",
-        Style=wx.BORDER_DEFAULT,
-        Position = (10,10),
-        Size = (100, 30),
-        Event={
-            "EVT_BUTTON": lambda event: cc.OpenLink("https://www.bilibili.com/")
-        }
-    )
-    button2 = Control(
-        Type="Button",
-        Name='button2',
-        Label="打开CMD",
-        Style=wx.BORDER_DEFAULT,
-        Position = (10,50),
-        Size = (100, 30),
-        Event={
-            "EVT_BUTTON": lambda event: cc.RunCommand("cmd")
-        }
-    )
-    button3 = Control(
-        Type="Button",
-        Name='button3',
-        Label="打开D:/",
-        Style=wx.BORDER_DEFAULT,
-        Position = (10,90),
-        Size = (100, 30),
-        Event={
-            "EVT_BUTTON": lambda event: cc.OpenFolder("D:/")
-        }
-    )
+    # button1 = Control(
+    #     Type="Button",
+    #     Name='button1',
+    #     Label="打开B站",
+    #     Style=wx.BORDER_DEFAULT,
+    #     Position = (10,10),
+    #     Size = (100, 30),
+    #     Event={
+    #         "EVT_BUTTON": lambda event: cc.OpenLink("https://www.bilibili.com/")
+    #     }
+    # )
+    # button2 = Control(
+    #     Type="Button",
+    #     Name='button2',
+    #     Label="打开CMD",
+    #     Style=wx.BORDER_DEFAULT,
+    #     Position = (10,50),
+    #     Size = (100, 30),
+    #     Event={
+    #         "EVT_BUTTON": lambda event: cc.RunCommand("cmd")
+    #     }
+    # )
+    # button3 = Control(
+    #     Type="Button",
+    #     Name='button3',
+    #     Label="打开D:/",
+    #     Style=wx.BORDER_DEFAULT,
+    #     Position = (10,90),
+    #     Size = (100, 30),
+    #     Event={
+    #         "EVT_BUTTON": lambda event: cc.OpenFolder("D:/")
+    #     }
+    # )
 
-    cts = [button1, button2, button3]
+    # cts = [button1, button2, button3]
+
+    cts = cc.ImportControlByJson("core/example.json")
 
     # 创建面板并添加控件
     panel1 = Panel(cts)

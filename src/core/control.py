@@ -44,8 +44,13 @@ class Control:
     
 
 def ImportControlByJson(json_path: str) -> list[Control]:
+    """
+
+    :param json_path:
+    :return:
+    """
     Controls : list[Control] = [ ]
-    with open(json_path, "r") as f:
+    with open(json_path, "r", encoding = "utf-8") as f:
         data = json.load(f)
         print(data)
         for control in data:
@@ -96,9 +101,9 @@ if __name__ == "__main__":
         import panel as cp
         from panel import Panel
 
-    print(ImportControlByJson("example.json"))
+    print(ImportControlByJson("core/example.json"))
     
-    Controls = (ImportControlByJson("example.json"))
+    Controls = (ImportControlByJson("core/example.json"))
     
     print(Controls)
 
