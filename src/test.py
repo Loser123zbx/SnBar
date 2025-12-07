@@ -114,12 +114,10 @@ class Bar(wx.Frame):
         self.Hide()  # 隐藏窗口而不是关闭
         event.Veto()  # 阻止窗口真正关闭
 
-class App(wx.App):
-    def OnInit(self):
-        self.frame = Bar()
-        self.frame.Show()
-        return True
+controls = (cc.ImportControlByJson("core/example.json"))
+Panel1 = Panel(controls)
 
 if __name__ == "__main__":
-    app = App(False)
-    app.MainLoop()
+    Panel1.Run(
+    )
+    

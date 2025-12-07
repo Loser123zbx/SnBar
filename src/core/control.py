@@ -2,6 +2,7 @@ import wx
 import os
 import json
 
+
 def OpenLink(link: str) -> None:
     wx.LaunchDefaultBrowser(link)
 
@@ -43,13 +44,13 @@ class Control:
         self.Position = Position
     
 
-def ImportControlByJson(json_path: str) -> list[Control]:
+def ImportControlByJson(json_path: str):
     """
 
     :param json_path:
     :return:
     """
-    Controls : list[Control] = [ ]
+    Controls = [ ]
     with open(json_path, "r", encoding = "utf-8") as f:
         data = json.load(f)
         print(data)
@@ -109,6 +110,7 @@ if __name__ == "__main__":
 
     Panel1 = Panel(Controls)
     Panel1.Run()
+    
 
 
     
