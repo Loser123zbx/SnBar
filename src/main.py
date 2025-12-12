@@ -21,7 +21,7 @@ WEIGHT = SETTING["panel"]["width"]
 HEIGHT = SETTING["panel"]["height"]
 CONTROLS_PATH = SETTING["controlsPath"]
 
-def load_controls(path: str) -> list[Control]:
+def load_controls(path: str):
     """
 
     :param path: 控件配置文件地址
