@@ -23,7 +23,7 @@ CONTROLS_PATH = SETTING["controlsPath"]
 
 def load_controls(path: str):
     """
-
+www
     :param path: 控件配置文件地址
     :return: 控件list，包含文件内所有控件
     """
