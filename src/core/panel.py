@@ -25,7 +25,12 @@ class SystemTrayIcon(wx.adv.TaskBarIcon):
         self.frame.Restore()
     
     def Exit(self, event):
-        self.frame.Destroy()
+        try:
+            self.frame.Destroy()
+            exit()
+        except Exception as e:
+            print(f"Error during exit: {e}")
+            exit()
     
     def OnRightClick(self, event):
         # 创建一个弹出菜单
@@ -46,6 +51,7 @@ class Panel(wx.Frame):
         
         self.Controls = Controls
         self.SetTransparent(200)
+        self.SetBackgroundColour("#392652")
         
         # 创建系统托盘图标
         self.tray_icon = SystemTrayIcon(self)
@@ -118,15 +124,25 @@ class Panel(wx.Frame):
                 except TypeError as e:
                     raise Exception(str(e))
 
-                control = control_class(
-                    parent=self,
-                    id=wx.ID_ANY,
-                    label=Acontrol.Label,
-                    pos=Acontrol.Position,
-                    size=Acontrol.Size,
-                    style=combined_style,
-                )
                 
+                if Acontrol.Type == "StaticBitmap":
+                # StaticBitmap 使用不同的参数
+                    control = control_class(
+                        parent=self,
+                        bitmap=wx.Bitmap(Acontrol.Label),  # 使用 Label 参数作为位图路径
+                        pos=Acontrol.Position,
+                        size=Acontrol.Size,
+                    )
+                else:
+                    # 其他控件使用标准创建方式
+                    control = control_class(
+                        parent=self,
+                        id=wx.ID_ANY,
+                        label=Acontrol.Label,
+                        pos=Acontrol.Position,
+                        size=Acontrol.Size,
+                        style=combined_style,
+                    )
                 Acontrol.control = control
                 
                 if Acontrol.Event:

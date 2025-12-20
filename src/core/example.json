@@ -1,10 +1,10 @@
 [
     {
         "Type" : "Button",
-        "Name" : "Button",
+        "Name" : "B1",
         "Parent" : null,
         "Sizer" : null,
-        "Label" : "Button",
+        "Label" : "打开文件夹D://",
         "Style" : [],
         "Event" : {
             "EVT_BUTTON": {
@@ -16,10 +16,10 @@
     },
     {
         "Type" : "Button",
-        "Name" : "Button1",
+        "Name" : "B1",
         "Parent" : null,
         "Sizer" : null,
-        "Label" : "Button1",
+        "Label" : "打开B站",
         "Style" : [],
         "Event" : {
             "EVT_BUTTON": {
@@ -28,5 +28,17 @@
         },
         "Size" : [100,20],
         "Position" : [20,50]
+    },
+    {
+        "Type":"StaticBitmap",
+        "Name":"pic",
+        "Label":"./res/example.jpg",
+        "Parent":null,
+        "Sizer":null,
+        "Style":[],
+        "Event":{},
+        "Size":[200,200],
+        "Position":[250,20],
+        "Bitmap":"./res/example.jpg"
     }
 ]
